@@ -7,14 +7,12 @@ const loader = document.getElementById("loader");
 // API refers to https://forismatic.com/en/api/
 // Add a proxy Url to get around with the CORS policy, for info refers to https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
 
-// On Load
-function loading() {
+function showLoadingSpinner() {
   loader.hidden = false;
   quoteContainer.hidden = true;
 }
 
-// Hide loading
-function complete() {
+function removeLoadingSpinner() {
   if (!loader.hidden) {
     quoteContainer.hidden = false;
     loader.hidden = true;
@@ -22,7 +20,7 @@ function complete() {
 }
 
 async function getQuote() {
-  loading();
+  showLoadingSpinner();
   const proxyUrl = "https://still-spire-54351.herokuapp.com/";
   const apiUrl =
     "http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json";
@@ -35,13 +33,10 @@ async function getQuote() {
     } else {
       authorText.innerText = data.quoteAuthor;
     }
-
-    // to-do reduce font size for long quotes
-
     quoteText.innerText = data.quoteText;
-    complete();
+    removeLoadingSpinner();
   } catch (error) {
-    console.log("Oops, no quote", error);
+    alert("Opps the server is busy Please refresh it!");
   }
   // Twitter Quote
   function tweetQuote() {
@@ -52,10 +47,7 @@ async function getQuote() {
   }
 
   // Event listenners
-
   twitterButton.addEventListener("click", tweetQuote);
-
   newQuoteButton.addEventListener("click", getQuote);
 }
-
 getQuote();
