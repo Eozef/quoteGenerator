@@ -22,12 +22,24 @@ async function getQuote() {
     }
 
     // to-do reduce font size for long quotes
+
     quoteText.innerText = data.quoteText;
   } catch (error) {
     console.log("Oops, no quote", error);
   }
 
   // to-do Twitter Quote
+
+  function tweetQuote() {
+    const quote = quoteText.innerText;
+    const author = authorText.innerText;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${quote} - ${author}`;
+    window.open(twitterUrl, "_blank");
+  }
+
+  // Event listenners
+
+  twitterButton.addEventListener("click", tweetQuote);
 
   newQuoteButton.addEventListener("click", getQuote);
 }
